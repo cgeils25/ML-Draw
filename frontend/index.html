@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ML Drawer</title>
+    <style>
+        canvas {
+            border: 4px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div height="30%" width="30%">
+        <canvas id="canvas" width="336" height="336" style="flex: 1;">
+    </div>
+    <script>
+        function initCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            let drawing = false;
+
+            canvas.addEventListener('mousedown', () => {
+                drawing = true;
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                drawing = false;
+                ctx.beginPath();
+            });
+
+            canvas.addEventListener('mousemove', (event) => {
+                if (!drawing) return;
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = 'black';
+
+                ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+            });
+        }
+
+        function getCanvasData(canvasId) {
+            // get a url to the image currently drawn on the canvas
+            const canvas = document.getElementById(canvasId);
+            return canvas.toDataURL('image/png');
+        }
+
+        initCanvas('canvas');
+    </script>
+</body>
+
+</html>
