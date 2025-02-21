@@ -16,6 +16,11 @@
     <div height="30%" width="30%">
         <canvas id="canvas" width="336" height="336" style="flex: 1;">
     </div>
+    <div height="30%" width="30%">
+        <iframe src="../scratch/sine_wave.html" width="500px" height="500px" style="border:none;"></iframe>
+    </div>
+    <div id="plotly-test" style="width:600px;height:250px;"></div>
+
     <script>
         function initCanvas(canvasId) {
             const canvas = document.getElementById(canvasId);
@@ -52,6 +57,17 @@
 
         initCanvas('canvas');
     </script>
+    <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
+
+    <script>
+        var data = [{
+            x: [1, 2, 3, 4, 5],
+            y: [1, 2, 4, 8, 16]
+        }];
+
+        Plotly.newPlot('plotly-test', data);
+    </script>
+
 </body>
 
 </html>
