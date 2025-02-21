@@ -16,6 +16,8 @@ async function predict(canvasId) {
     return data;
 }
 
+let first_plot = true;
+
 async function updatePlot(canvasId) {
     // get make a prediction and then update the bar chart
     const predict_response = await predict(canvasId);
@@ -34,14 +36,16 @@ async function updatePlot(canvasId) {
     const layout = {
         yaxis: {
             range: [0, 1],
-            title: 'Probability (Model Output)'
         },
-        xaxis: {
-            title: 'Digit'
-        }
     };
 
-    Plotly.newPlot('plotly-test', data, layout);
+    if (first_plot) {
+        Plotly.newPlot('plotly-test', data, layout);
+        first_plot = false;
+    }
+    else {
+        Plotly.react('plotly-test', data, layout);
+    }
 }
 
 function initCanvas(canvasId) {
