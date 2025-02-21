@@ -13,15 +13,64 @@
 </head>
 
 <body>
+    <h1>ML Drawer</h1>
     <div height="30%" width="30%">
         <canvas id="canvas" width="336" height="336" style="flex: 1;">
     </div>
-    <div height="30%" width="30%">
-        <iframe src="../scratch/sine_wave.html" width="500px" height="500px" style="border:none;"></iframe>
-    </div>
-    <div id="plotly-test" style="width:600px;height:250px;"></div>
+
+    <button id="clear" onclick="clearCanvas('canvas')">Clear</button>
+
+    <div id="plotly-test" height="30%" width="30%"></div>
+
+    <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
 
     <script>
+        async function predict(canvasId) {
+            // get the image and pass it to a fastapi backend
+            const canvasData = document.getElementById(canvasId).toDataURL();
+
+            const response = await fetch('http://localhost:8000/predict', {
+                method: 'POST',
+                body: JSON.stringify({
+                    image: canvasData
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            return data;
+        }
+
+        async function updatePlot(canvasId) {
+            // get make a prediction and then update the bar chart
+            const predict_response = await predict(canvasId);
+
+            predictions = predict_response.predictions;
+
+            labels = Object.keys(predictions);
+            probabilities = Object.values(predictions);
+
+            const data = [{
+                x: labels,
+                y: probabilities,
+                type: 'bar',
+            }];
+
+            const layout = {
+                yaxis: {
+                    range: [0, 1],
+                    title: 'Probability (Model Output)'
+                },
+                xaxis: {
+                    title: 'Digit'
+                }
+            };
+
+            Plotly.newPlot('plotly-test', data, layout);
+        }
+
         function initCanvas(canvasId) {
             const canvas = document.getElementById(canvasId);
             const ctx = canvas.getContext('2d');
@@ -38,7 +87,7 @@
 
             canvas.addEventListener('mousemove', (event) => {
                 if (!drawing) return;
-                ctx.lineWidth = 5;
+                ctx.lineWidth = 10;
                 ctx.lineCap = 'round';
                 ctx.strokeStyle = 'black';
 
@@ -49,15 +98,16 @@
             });
         }
 
-        function getCanvasData(canvasId) {
-            // get a url to the image currently drawn on the canvas
+        function clearCanvas(canvasId) {
             const canvas = document.getElementById(canvasId);
-            return canvas.toDataURL('image/png');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
         initCanvas('canvas');
+        updatePlot('canvas');
+
     </script>
-    <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
 
     <script>
         var data = [{
