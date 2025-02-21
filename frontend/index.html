@@ -22,101 +22,11 @@
 
     <div id="plotly-test" height="30%" width="30%"></div>
 
+    <!-- so plotly works -->
     <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
 
-    <script>
-        async function predict(canvasId) {
-            // get the image and pass it to a fastapi backend
-            const canvasData = document.getElementById(canvasId).toDataURL();
-
-            const response = await fetch('http://localhost:8000/predict', {
-                method: 'POST',
-                body: JSON.stringify({
-                    image: canvasData
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const data = await response.json();
-            return data;
-        }
-
-        async function updatePlot(canvasId) {
-            // get make a prediction and then update the bar chart
-            const predict_response = await predict(canvasId);
-
-            predictions = predict_response.predictions;
-
-            labels = Object.keys(predictions);
-            probabilities = Object.values(predictions);
-
-            const data = [{
-                x: labels,
-                y: probabilities,
-                type: 'bar',
-            }];
-
-            const layout = {
-                yaxis: {
-                    range: [0, 1],
-                    title: 'Probability (Model Output)'
-                },
-                xaxis: {
-                    title: 'Digit'
-                }
-            };
-
-            Plotly.newPlot('plotly-test', data, layout);
-        }
-
-        function initCanvas(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            let drawing = false;
-
-            canvas.addEventListener('mousedown', () => {
-                drawing = true;
-            });
-
-            canvas.addEventListener('mouseup', () => {
-                drawing = false;
-                ctx.beginPath();
-            });
-
-            canvas.addEventListener('mousemove', (event) => {
-                if (!drawing) return;
-                ctx.lineWidth = 10;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = 'black';
-
-                ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
-            });
-        }
-
-        function clearCanvas(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        initCanvas('canvas');
-        updatePlot('canvas');
-
-    </script>
-
-    <script>
-        var data = [{
-            x: [1, 2, 3, 4, 5],
-            y: [1, 2, 4, 8, 16]
-        }];
-
-        Plotly.newPlot('plotly-test', data);
-    </script>
+    <!-- main functions and utilities -->
+    <script src="main.js"></script>
 
 </body>
 
