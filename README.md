@@ -2,10 +2,11 @@
 
 Environment + dependencies are managed with uv: [uv installation](https://docs.astral.sh/uv/getting-started/installation/)
 
-
-To start fastapi app:
+To start the app, run
 
 ```
-uv run fastapi dev backend/app.py
+run.sh
 ```
+
+
 
