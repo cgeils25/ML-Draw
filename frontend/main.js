@@ -47,7 +47,11 @@ async function updatePlot(canvasId) {
     }];
 
     const layout = {
-        title: {text: 'Model Predictions'},
+        autosize: false,
+        width: 500,
+        height: 500,
+
+        title: {text: 'Model Predictions (Random Forest)'},
         
         yaxis: {
             range: [0, 1],
@@ -58,6 +62,8 @@ async function updatePlot(canvasId) {
             title: {text: 'Digit'},
             tickvals: labels,
         },
+
+
     };
 
     if (first_plot) {
@@ -137,3 +143,10 @@ function clearCanvas(canvasId) {
 initCanvas('canvas');
 updatePlot('canvas');
 
+// animate pressing the clear button
+document.getElementById('clear-button').addEventListener('click', function() {
+    this.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+        this.style.transform = 'scale(1)';
+    }, 100);
+    });

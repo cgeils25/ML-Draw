@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ML Drawer</title>
+    <title>MNIST-Drawer</title>
     <style>
         canvas {
             border: 4px solid black;
@@ -13,12 +13,18 @@
 </head>
 
 <body>
-    <h1>ML Drawer</h1>
-    <div height="30%" width="30%">
-        <canvas id="canvas" width="336" height="336" style="flex: 1;">
+    <div style="text-align: center;">
+        <h1 style="font-size: 50px;">Machine Learning for Handwritten Digit Recognition</h1>
+        <h2 style="font-size: 25px;">Presented by: The Gamecock Artificial Intelligence and Machine Learning Association (GAMA)</h1>
+        <div style="display: inline-block; height: 30%; width: 30%;">
+            <canvas id="canvas" width="336" height="336" style="flex: 1;"></canvas>
+        </div>
     </div>
 
-    <button id="clear" onclick="clearCanvas('canvas')">Clear</button>
+    <div style="text-align: center;">
+        <button id="clear-button" onclick="clearCanvas('canvas')" style="text-align: center; background-color: #DE3163; width: 80px; height: 50px; 
+        border-radius: 12px; color: white; font-size: 20px; transition: transform 0.2s;">Clear</button>
+    </div>
 
     <div id="prediction-plot" height="30%" width="30%"></div>
 
