@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,7 +31,7 @@ app = FastAPI(lifespan=lifespan)
 
 # this makes it so that the frontend can access the API
 origins = [
-    "http://127.0.0.1:5500" # not sure how you would know the origins you want to allow ahead of time. Can use a wildcard but that seems insecure?
+    f"http://127.0.0.1:{os.environ['FRONTEND_PORT']}",
 ]
 
 app.add_middleware(
