@@ -2,8 +2,8 @@ async function predict(canvasId) {
     // take the id of the canvas, get the image, pass to backend, receive the prediction
     const canvasData = document.getElementById(canvasId).toDataURL();
 
-    // figure out how to get BACKEND_PORT working for the fetch
-    const response = await fetch('http://localhost:8000/predict', {
+    // figure out how to get BACKEND_PORT working for the fetch. it's in env
+    const response = await fetch('http://127.0.0.1:8000/predict', {
         method: 'POST',
         body: JSON.stringify({
             image: canvasData
@@ -41,13 +41,41 @@ async function updatePlot(canvasId) {
     };
 
     if (first_plot) {
-        Plotly.newPlot('plotly-test', data, layout);
+        Plotly.newPlot('prediction-plot', data, layout);
         first_plot = false;
     }
     else {
-        Plotly.react('plotly-test', data, layout);
+        Plotly.animate('prediction-plot', {
+            data: [{y: probabilities}],
+            traces: [0],
+            layout: layout
+          }, {
+            transition: {
+              duration: 500,
+              easing: 'cubic-in-out'
+            },
+            frame: {
+              duration: 500
+            }
+          })
     }
 }
+
+function randomize() {
+    Plotly.animate('myDiv', {
+      data: [{y: [Math.random(), Math.random(), Math.random()]}],
+      traces: [0],
+      layout: {}
+    }, {
+      transition: {
+        duration: 500,
+        easing: 'cubic-in-out'
+      },
+      frame: {
+        duration: 500
+      }
+    })
+  }
 
 function initCanvas(canvasId) {
     // initialize the canvas and add event listeners so you can draw on it
@@ -66,7 +94,7 @@ function initCanvas(canvasId) {
 
     canvas.addEventListener('mousemove', (event) => {
         if (!drawing) return;
-        ctx.lineWidth = 10;
+        ctx.lineWidth = 20;
         ctx.lineCap = 'round';
         ctx.strokeStyle = 'black';
 
@@ -97,3 +125,4 @@ function clearCanvas(canvasId) {
 
 initCanvas('canvas');
 updatePlot('canvas');
+
