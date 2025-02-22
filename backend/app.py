@@ -39,9 +39,11 @@ async def lifespan(app: FastAPI):
     with open('backend/app_parameters.json', 'r') as f:
         args = json.load(f)
     
-    model = load_model(args['model_path'])
+    lr_model = load_model(args['logistic_regression_model_path'])
+    rf_model = load_model(args['random_forest_model_path'])
 
-    app.state.model = model
+    app.state.lr_model = lr_model
+    app.state.rf_model = rf_model
 
     yield
 
@@ -93,8 +95,15 @@ async def predict(image_base64_string: Annotated[str | None, Query()] = None) ->
 
         x = 255 - x
 
-        prediction = app.state.model.predict_proba([x])
+        lr_probabilities = app.state.lr_model.predict_proba([x])[0]   
+        rf_probabilities = app.state.rf_model.predict_proba([x])[0]
 
-        return MNISTPredictionResponse(predictions={i: prediction[0][i] for i in range(10)})
 
-    return MNISTPredictionResponse(predictions={i: 0 for i in range(10)})
+
+        return MNISTPredictionResponse(predictions={'lr': {label: prob for label, prob in zip(app.state.lr_model.classes_.tolist(), lr_probabilities)},
+                                                    'rf': {label: prob for label, prob in zip(app.state.rf_model.classes_.tolist(), rf_probabilities)}})
+                                   
+    return MNISTPredictionResponse(predictions={'lr': {i: 0 for i in range(10)},
+                                                    'rf': {i: 0 for i in range(10)}})
+                                   
+                                   
