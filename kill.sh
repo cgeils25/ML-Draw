@@ -1,0 +1,2 @@
+kill $FRONTEND_PID
+kill $BACKEND_PID
