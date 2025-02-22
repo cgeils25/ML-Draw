@@ -1,12 +1,24 @@
+async function predict(smiles) {
+    const predictEndpoint = 'http://127.0.0.1:8000/predict'
+    const response = await fetch(`${predictEndpoint}?smiles=${smiles}`)
+    const data = await response.json()
+    return data
+}
+
+const backend_enpoint = 'http://127.0.0.1:8000'
+
 async function predict(canvasId) {
     // take the id of the canvas, get the image, pass to backend, receive the prediction
     const canvasData = document.getElementById(canvasId).toDataURL();
 
+    // do something with this maybe?
+    const base64_string = canvasData.split(',')[1]
+
     // figure out how to get BACKEND_PORT working for the fetch. it's in env
-    const response = await fetch('http://127.0.0.1:8000/predict', {
+    const response = await fetch(`${backend_enpoint}/predict?image_base64_string=${base64_string}`, {
         method: 'POST',
         body: JSON.stringify({
-            image: canvasData
+            image_base64_string: base64_string
         }),
         headers: {
             'Content-Type': 'application/json'
@@ -86,7 +98,7 @@ function initCanvas(canvasId) {
 
     canvas.addEventListener('mousemove', (event) => {
         if (!drawing) return;
-        ctx.lineWidth = 20;
+        ctx.lineWidth = 40;
         ctx.lineCap = 'round';
         ctx.strokeStyle = 'black';
 
@@ -97,7 +109,7 @@ function initCanvas(canvasId) {
     });
 
     let lastExecution = 0;
-    let delay = 250; // how long to wait before updating the plot again
+    let delay = 400; // how long to wait before updating the plot again
 
     canvas.addEventListener('mousemove', (event) => {
         const now = Date.now();
