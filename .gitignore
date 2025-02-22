@@ -1,6 +1,7 @@
 personal_notes.txt
 scratch
 .DS_Store
+.env
 
 # Python-generated files
 __pycache__/
