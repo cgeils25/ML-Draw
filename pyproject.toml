@@ -7,9 +7,12 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.115.8",
     "jupyter>=1.1.1",
+    "matplotlib>=3.10.0",
     "numpy>=2.2.3",
     "pandas>=2.2.3",
     "pip>=25.0.1",
     "plotly>=6.0.0",
     "scikit-learn>=1.6.1",
+    "seaborn>=0.13.2",
+    "torch>=2.6.0",
 ]
