@@ -109,7 +109,9 @@ function initCanvas(canvasId) {
 
     canvas.addEventListener('mousemove', (event) => {
         const now = Date.now();
-        if (now - lastExecution >= delay) {
+
+        // only update if it has been at least delay ms since the last update and we are currently drawing
+        if (now - lastExecution >= delay && drawing) {
             updatePlot(canvasId);
             lastExecution = now;
         }
