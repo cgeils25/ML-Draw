@@ -5,8 +5,12 @@ Environment + dependencies are managed with uv: [uv installation](https://docs.a
 To start the app, run
 
 ```
-run.sh
+source start.sh
 ```
 
+To kill the app, run
 
+```
+source kill.sh
+```
 
