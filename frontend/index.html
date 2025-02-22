@@ -17,8 +17,10 @@
     <div style="text-align: center;">
         <h1 style="font-size: 50px;">Machine Learning for Handwritten Digit Recognition</h1>
         <h2 style="font-size: 25px;">Presented by: The Gamecock Artificial Intelligence and Machine Learning Association (GAMA)</h1>
-        <div style="display: inline-block; height: 30%; width: 30%;">
-            <canvas id="canvas" width="336" height="336" style="flex: 1;"></canvas>
+        <div style="display: flex; justify-content: center; gap: 20px;">
+            <div style="display: inline-block; height: 30%; width: 30%;">
+                <canvas id="canvas" width="336" height="336" style="flex: 1;"></canvas>
+            </div>
         </div>
     </div>
 
@@ -30,6 +32,7 @@
     <div style="display: flex; justify-content: center; gap: 20px;">
         <div id="lr-prediction-plot"></div>
         <div id="rf-prediction-plot"></div>
+        <div id="lenet-prediction-plot"></div>
     </div>
 
     <!-- so plotly works -->

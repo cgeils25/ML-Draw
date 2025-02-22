@@ -31,11 +31,18 @@ async function predict(canvasId) {
 
 let first_plot = true;
 
-async function updatePlot(labels, probabilities, model_name, plot_id, first_plot=true)  {
+async function updatePlot(labels, probabilities, model_name, plot_id, first_plot=true, barcolor)  {
     const data = [{
         x: labels,
         y: probabilities,
         type: 'bar',
+        marker: {
+            color: barcolor,
+            line: {
+                color: 'black',
+                width: 1
+            }
+        }
     }];
 
     const layout = {
@@ -85,9 +92,16 @@ async function updatePlots(canvasId) {
 
     lr_predictions = predictions.lr;
     rf_predictions = predictions.rf;
+    lenet_predictions = predictions.lenet;
 
-    updatePlot(labels=Object.keys(lr_predictions), probabilities=Object.values(lr_predictions), 'Logistic Regression', 'lr-prediction-plot', first_plot);
-    updatePlot(labels=Object.keys(rf_predictions), Object.values(rf_predictions), 'Random Forest', 'rf-prediction-plot', first_plot);
+    updatePlot(labels=Object.keys(lr_predictions), probabilities=Object.values(lr_predictions), 
+    'Logistic Regression', 'lr-prediction-plot', first_plot, "#636EFA");
+
+    updatePlot(labels=Object.keys(rf_predictions), Object.values(rf_predictions), 
+    'Random Forest', 'rf-prediction-plot', first_plot, '#FFA15A');
+
+    updatePlot(labels=Object.keys(lenet_predictions), Object.values(lenet_predictions), 
+    'LeNet-5', 'lenet-prediction-plot', first_plot, '#B6E880');
 
     first_plot = false;
 }
@@ -104,6 +118,8 @@ function initCanvas(canvasId) {
     });
 
     canvas.addEventListener('mouseup', () => {
+        // update the plots when you stop drawing. Otherwise the last prediction might be on an incomplete image
+        updatePlots(canvasId);
         drawing = false;
         ctx.beginPath();
     });
@@ -121,12 +137,14 @@ function initCanvas(canvasId) {
     });
 
     canvas.addEventListener('mouseleave', () => {
+        // update the plots when you stop drawing. Otherwise the last prediction might be on an incomplete image
+        updatePlots(canvasId);
         drawing = false;
         ctx.beginPath();
     });
 
     let lastExecution = 0;
-    let delay = 400; // how long to wait before updating the plot again
+    let delay = 300; // how long to wait before updating the plot again
 
     canvas.addEventListener('mousemove', (event) => {
         const now = Date.now();
