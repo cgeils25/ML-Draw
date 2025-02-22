@@ -35,8 +35,16 @@ async function updatePlot(canvasId) {
     }];
 
     const layout = {
+        title: {text: 'Model Predictions'},
+        
         yaxis: {
             range: [0, 1],
+            title: {text: 'Predicted Probability'}
+        },
+
+        xaxis: {
+            title: {text: 'Digit'},
+            tickvals: labels,
         },
     };
 
