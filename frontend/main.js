@@ -108,6 +108,11 @@ function initCanvas(canvasId) {
         ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
     });
 
+    canvas.addEventListener('mouseleave', () => {
+        drawing = false;
+        ctx.beginPath();
+    });
+
     let lastExecution = 0;
     let delay = 400; // how long to wait before updating the plot again
 
