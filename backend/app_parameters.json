@@ -1,3 +1,4 @@
 {
-    "model_path": "backend/models/random_forest_mnist_2025-02-22_01.44.48.105075.pkl"
+    "logistic_regression_model_path": "backend/models/logistic_regression_l2_mnist_2025-02-22_04.35.13.815645.pkl",
+    "random_forest_model_path": "backend/models/random_forest_mnist_2025-02-22_01.44.48.105075.pkl"
 }
