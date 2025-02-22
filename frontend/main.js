@@ -2,6 +2,7 @@ async function predict(canvasId) {
     // take the id of the canvas, get the image, pass to backend, receive the prediction
     const canvasData = document.getElementById(canvasId).toDataURL();
 
+    // figure out how to get BACKEND_PORT working for the fetch
     const response = await fetch('http://localhost:8000/predict', {
         method: 'POST',
         body: JSON.stringify({
