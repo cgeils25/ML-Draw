@@ -31,15 +31,7 @@ async function predict(canvasId) {
 
 let first_plot = true;
 
-async function updatePlot(canvasId) {
-    // get make a prediction and then update the bar chart
-    const predict_response = await predict(canvasId);
-
-    predictions = predict_response.predictions;
-
-    labels = Object.keys(predictions);
-    probabilities = Object.values(predictions);
-
+async function updatePlot(labels, probabilities, model_name, plot_id, first_plot=true)  {
     const data = [{
         x: labels,
         y: probabilities,
@@ -51,7 +43,7 @@ async function updatePlot(canvasId) {
         width: 500,
         height: 500,
 
-        title: {text: 'Model Predictions (Random Forest)'},
+        title: {text: `Model Predictions (${model_name})`},
         
         yaxis: {
             range: [0, 1],
@@ -62,16 +54,14 @@ async function updatePlot(canvasId) {
             title: {text: 'Digit'},
             tickvals: labels,
         },
-
-
     };
 
     if (first_plot) {
-        Plotly.newPlot('prediction-plot', data, layout);
+        Plotly.newPlot(plot_id, data, layout);
         first_plot = false;
     }
     else {
-        Plotly.animate('prediction-plot', {
+        Plotly.animate(plot_id, {
             data: [{y: probabilities}],
             traces: [0],
             layout: layout
@@ -86,6 +76,22 @@ async function updatePlot(canvasId) {
           })
     }
 }
+
+async function updatePlots(canvasId) {
+    // get make a prediction and then update the bar chart
+    const predict_response = await predict(canvasId);
+
+    predictions = predict_response.predictions;
+
+    lr_predictions = predictions.lr;
+    rf_predictions = predictions.rf;
+
+    updatePlot(labels=Object.keys(lr_predictions), probabilities=Object.values(lr_predictions), 'Logistic Regression', 'lr-prediction-plot', first_plot);
+    updatePlot(labels=Object.keys(rf_predictions), Object.values(rf_predictions), 'Random Forest', 'rf-prediction-plot', first_plot);
+
+    first_plot = false;
+}
+
 
 function initCanvas(canvasId) {
     // initialize the canvas and add event listeners so you can draw on it
@@ -127,7 +133,7 @@ function initCanvas(canvasId) {
 
         // only update if it has been at least delay ms since the last update and we are currently drawing
         if (now - lastExecution >= delay && drawing) {
-            updatePlot(canvasId);
+            updatePlots(canvasId);
             lastExecution = now;
         }
     });
@@ -141,7 +147,7 @@ function clearCanvas(canvasId) {
 }
 
 initCanvas('canvas');
-updatePlot('canvas');
+updatePlots('canvas');
 
 // animate pressing the clear button
 document.getElementById('clear-button').addEventListener('click', function() {
