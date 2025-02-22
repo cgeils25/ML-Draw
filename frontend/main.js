@@ -69,22 +69,6 @@ async function updatePlot(canvasId) {
     }
 }
 
-function randomize() {
-    Plotly.animate('myDiv', {
-      data: [{y: [Math.random(), Math.random(), Math.random()]}],
-      traces: [0],
-      layout: {}
-    }, {
-      transition: {
-        duration: 500,
-        easing: 'cubic-in-out'
-      },
-      frame: {
-        duration: 500
-      }
-    })
-  }
-
 function initCanvas(canvasId) {
     // initialize the canvas and add event listeners so you can draw on it
     const canvas = document.getElementById(canvasId);
