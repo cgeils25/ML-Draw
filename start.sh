@@ -12,4 +12,6 @@ uv run python -m http.server -d frontend $FRONTEND_PORT &
 dotenv set FRONTEND_PID $!
 
 # open the frontend in the browser
-uv run python -m webbrowser http://127.0.0.1:$FRONTEND_PORT
+uv run python -m webbrowser http://127.0.0.1:$FRONTEND_PORT & 
+
+dotenv set BROWSER_PID $!
