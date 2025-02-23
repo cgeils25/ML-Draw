@@ -148,19 +148,6 @@ function initCanvas(canvasId) {
         drawing = false;
         ctx.beginPath();
     });
-
-    let lastExecution = 0;
-    let delay = 300; // how long to wait before updating the plot again
-
-    canvas.addEventListener('mousemove', (event) => {
-        const now = Date.now();
-
-        // only update if it has been at least delay ms since the last update and we are currently drawing
-        if (now - lastExecution >= delay && drawing) {
-            updatePlots(canvasId);
-            lastExecution = now;
-        }
-    });
 }
 
 function clearCanvas(canvasId) {
