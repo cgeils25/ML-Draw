@@ -61,6 +61,12 @@ async function updatePlot(labels, probabilities, model_name, plot_id, first_plot
             title: {text: 'Digit'},
             tickvals: labels,
         },
+
+        font: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'black'
+        }
     };
 
     if (first_plot) {
