@@ -105,19 +105,26 @@ async def predict(image_base64_string: Annotated[str | None, Query()] = None) ->
             f.write(image_base64_string + '\n')
 
     if image_base64_string is not None:
-        
+        # make predictions on with Lr and RF models
         image = get_image_from_base64_string(image_base64_string)
 
+        # get as a numpy array
         small_img = np.array(image.resize((28, 28)))
 
+        # we only need the black/white channel
         x = small_img[:, :, 3]
 
+        # transform the image to a vector
         x = x.flatten()
 
+        # invert the colors
         x = 255 - x
 
+        # make predictions
         lr_probabilities = app.state.lr_model.predict_proba([x])[0]   
         rf_probabilities = app.state.rf_model.predict_proba([x])[0]
+
+        # make predictions with the LeNet model
 
         small_image_pt = torch.tensor(x).float().view(1, 1, 28, 28)
 
