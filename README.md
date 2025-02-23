@@ -52,6 +52,6 @@ source kill.sh
 
 ## Tech Stack
 
-Frontend: javascript + html. Plotly for the plots, canvas to draw on
+Frontend: javascript + html. Plotly for the plots, canvas to draw digit
 
-Backend: fastpi for recieve images + respond with predictions. Numpy, scikit-Learn, and pytorch for the models
+Backend: fastpi to recieve images + respond with predictions. Numpy, scikit-Learn, and pytorch for the models
