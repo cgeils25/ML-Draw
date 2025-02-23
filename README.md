@@ -26,7 +26,7 @@ It achieved a final cross-entropy of on its test set of 0.000357.
 
 I didn't get around to implementing image centering or padding on the backend. I may do this later, but for now what this means is that the models (especially LR and RF) are sensitive to the position of the drawn digit.
 
-As for padding, you may notice that if you draw a '9' too large, LeNet will confidently predict 4. This is because its pooling and convolution mechanisms ends up cutting/giving less weight to the sides of images.
+As for padding, you may notice that if you draw a '9' too large, LeNet will confidently predict 4. This is because its pooling and convolution mechanisms end up cutting off/giving less weight to the sides of images.
 
 ## Setup
 
