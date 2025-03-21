@@ -20,7 +20,7 @@ The third (and best) model is my implementation of LeNet-5, trained using PyTorc
 - Number of epochs: 10
 - Batch Size: 128
 
-It achieved a final cross-entropy of on its test set of 0.000357.
+It achieved a final cross-entropy on its test set of 0.000357.
 
 ## Limitations
 
